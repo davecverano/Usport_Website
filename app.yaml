@@ -1,7 +1,7 @@
 # [START runtime]
 runtime: nodejs14
 env: standard
-service: app-engine-react-demo
+
 # [END runtime]
 
 # [START handlers]
