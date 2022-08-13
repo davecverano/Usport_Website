@@ -1,6 +1,6 @@
 # [START runtime]
 runtime: nodejs
-env: flex
+env: standard
 service: app-engine-react-demo
 # [END runtime]
 
@@ -13,9 +13,3 @@ handlers:
     static_files: build/\1
     upload: build/(.*)
 
-manual_scaling:
-  instances: 1
-resources:
-  cpu: 1
-memory_gb: 0.5
-disk_size_gb: 10
