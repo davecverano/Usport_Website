@@ -1,0 +1,18 @@
+
+.new_post{
+    text-align: center;
+    margin-top: 5vw;
+}
+
+.new_post_button {
+    display: block;
+    width: 70%;
+    border: none;
+    background-color: #D3D3D3;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin:auto;
+    
+  }
