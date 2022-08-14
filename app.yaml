@@ -13,7 +13,6 @@ handlers:
   - url: /(.*)$
     static_files: build/\1
     upload: build/(.*)
-
-- url: .*
-  script: main.app
-  secure: always
+  - url: .*
+    script: main.app
+    secure: always
