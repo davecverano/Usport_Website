@@ -7,7 +7,6 @@ const Post = () => {
     return (
         <div className="post">
             <div className="post-container">
-                
                 <img className="image" src="https://i.kym-cdn.com/photos/images/original/001/707/893/06a.png" alt="post" />
                 <h1 className="heading">Mem man</h1>
                 <p>What is Lorem Ipsum?
