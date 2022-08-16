@@ -14,17 +14,17 @@ key = 'sGhH?&zm?n6RmR8rJyrHe)VW?6?)NMmsX8zhAV8z&wwhhzs&8m'
 salt = 'dhG_CkqG{JtsCSSnJ~sqtdJ=D=^qP^k4dYP3x?%3CY}Y7+q?Pq'
 expiry_time = 10
 
-if os.getenv('GAE_ENV', '').startswith('standard'):
+# if os.getenv('GAE_ENV', '').startswith('standard'):
     # production
-    db = datastore.Client()
-else:
-    # localhost
-    os.environ["DATASTORE_DATASET"] = "test"
-    os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8001"
-    os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8001/datastore"
-    os.environ["DATASTORE_HOST"] = "http://localhost:8001"
-    os.environ["DATASTORE_PROJECT_ID"] = "test"
-    db = datastore.Client(project="test")
+db = datastore.Client()
+# else:
+#     # localhost
+#     os.environ["DATASTORE_DATASET"] = "test"
+#     os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8001"
+#     os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8001/datastore"
+#     os.environ["DATASTORE_HOST"] = "http://localhost:8001"
+#     os.environ["DATASTORE_PROJECT_ID"] = "test"
+#     db = datastore.Client(project="test")
 
 def getGCSBucket():
     storage_client = storage.Client.from_service_account_json('serviceaccountkey.json')
