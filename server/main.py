@@ -27,17 +27,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-if os.getenv('GAE_ENV', '').startswith('standard'):
-    #production
-    db = datastore.Client()
-else:
-    # localhost
-    os.environ["DATASTORE_DATASET"] = "test"
-    os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8001"
-    os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8001/datastore"
-    os.environ["DATASTORE_HOST"] = "http://localhost:8001"
-    os.environ["DATASTORE_PROJECT_ID"] = "test"
-    db = datastore.Client(project="test")
+# if os.getenv('GAE_ENV', '').startswith('standard'):
+#     #production
+db = datastore.Client()
+# else:
+#     # localhost
+#     os.environ["DATASTORE_DATASET"] = "test"
+#     os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8001"
+#     os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8001/datastore"
+#     os.environ["DATASTORE_HOST"] = "http://localhost:8001"
+#     os.environ["DATASTORE_PROJECT_ID"] = "test"
+#     db = datastore.Client(project="test")
 
 def getGCSBucket():
     storage_client = storage.Client.from_service_account_json('serviceaccountkey.json')
