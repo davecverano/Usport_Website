@@ -11,6 +11,8 @@ handlers:
     static_files: build/index.html
     upload: build/index.html
     secure: always
-  - url: /.*
-    script: auto
-    secure: always
+  - url: /(.*)$
+    static_files: build/\1
+    upload: build/(.*)
+  - url: .*
+    script: main.app
