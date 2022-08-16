@@ -1,5 +1,6 @@
 {
   "name": "usport_v2",
+  "homepage": "https://usport.club",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
