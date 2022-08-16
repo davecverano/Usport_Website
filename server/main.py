@@ -17,6 +17,7 @@ expiry_time = 10
 
 origins = [
     "https://usport.club"
+    "https://usport.club/signin"
 ]
 
 app.add_middleware(
@@ -137,23 +138,23 @@ def get_posts():
     return posts
 
 
-# @app.post('/new_user')
-# async def create_user(username, pwd):
-#     user = datastore.Entity(db.key("User"))
-#     encrypted_password = encrypt_string(pwd)
-#     user.update(
-#         {
-#             "username": username,
-#             "pwd": encrypted_password
-#         }
-#     )
-#     db.put(user)
-#     users = get_users()
-#     return users
+@app.post('/new_user')
+async def create_user(username, pwd):
+    user = datastore.Entity(db.key("User"))
+    encrypted_password = encrypt_string(pwd)
+    user.update(
+        {
+            "username": username,
+            "pwd": encrypted_password
+        }
+    )
+    db.put(user)
+    users = get_users()
+    return users
 
-# @app.get('/get_users')
-# def get_users():
-#     user_query = db.query(kind="User")
-#     users = list(user_query.fetch())
-#     return users
+@app.get('/get_users')
+def get_users():
+    user_query = db.query(kind="User")
+    users = list(user_query.fetch())
+    return users
     
