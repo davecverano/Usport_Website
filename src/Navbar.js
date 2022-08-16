@@ -15,7 +15,6 @@ const Navbar = () => {
 
   useEffect(() => {
         let auth_token = sessionStorage.getItem("usport_auth_token");
-        console.log(auth_token)
         if(auth_token){
           setIsSignedIn(true)
         }else{
