@@ -39,10 +39,18 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <a href="/miami">Miami</a>
+              <NavLink
+                    to="miami"
+                >
+                  Miami
+              </NavLink>
             </li>
             <li>
-              <a href="/contact">Contact</a>
+              <NavLink
+                      to="contact"
+                  >
+                    Contact
+              </NavLink>
             </li>
           </ul>
         </div>
