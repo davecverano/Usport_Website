@@ -2,7 +2,6 @@ import mock
 import os
 from google.cloud import datastore, storage
 from fastapi import FastAPI, Request
-import google.auth.credentials
 from datetime import datetime, timedelta
 import base64, json
 from uuid import uuid4
@@ -37,12 +36,14 @@ async def create_post(request: Request, heading, body, authToken):
 
     if verifyAuthToken(authToken):
         request_forms_list = await request.form()
-        image = request_forms_list.getlist('image')
-        image_name = str(uuid4()) + '_' + image[0].filename
-        image_data = image[0].file
-        bucket = getGCSBucket()
-        blob = bucket.blob(image_name)
-        blob.upload_from_file(image_data)
+        image = request_forms_list.getlist('image')[0]
+        image_name = None
+        if image != 'null':
+            image_name = str(uuid4()) + '_' + image.filename
+            image_data = image.file
+            bucket = getGCSBucket()
+            blob = bucket.blob(image_name)
+            blob.upload_from_file(image_data)
         post = datastore.Entity(db.key("Post"))
         post.update(
             {
@@ -116,9 +117,9 @@ def get_posts():
     posts = list(post_query.fetch())
     bucket = getGCSBucket()
     for post in posts:
-        if 'image_name' in post:
+        if 'image_name' in post and post['image_name'] is not None:
             blob = bucket.blob(post['image_name'])
-            if 'image' in post:
+            if 'image' in post and post['image'] is not None:
                 contents = base64.b64encode(blob.download_as_string())
                 post['image'] = contents
     return posts
