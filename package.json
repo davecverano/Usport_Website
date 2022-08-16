@@ -38,6 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://server-dot-weighty-archive-270701.ue.r.appspot.com/"
+  }
+  ,"proxy": "https://server-dot-weighty-archive-270701.ue.r.appspot.com/"
 }
