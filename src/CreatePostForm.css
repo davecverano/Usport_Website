@@ -1,0 +1,133 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+
+textarea[type="text"]
+{
+    font-size:1.5vw;
+}
+
+
+/* Full-width input fields */
+.headingInput{
+  width: 50%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  text-align: center; 
+  border-radius: 5px;
+}
+
+.bodyInput{
+    width: 70%;
+    height: 10vw;
+    padding: 8px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 5px;
+    vertical-align: top;
+    text-align: left;
+    word-wrap: break-word;
+    resize: none;
+  }
+
+.uploadImage{
+    height: max-content;
+}
+
+.uploadImage:hover, .uploadImage:hover * { 
+    color: #2b2c2dbb; 
+}
+
+
+.formImage {
+    width: 100%;
+    height: 10vw;
+}
+
+
+
+
+.form-control{
+    visibility: hidden;
+    width: 0%;
+}
+
+.signupbtn_wrapper {
+    margin-left: 60%;
+    width: 30%;
+    height: 3vw;
+}
+
+/* Set a style for all buttons */
+.signupbtn {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  border-radius: 15vw;
+}
+
+button:hover {
+  opacity:1;
+}
+
+
+
+
+
+/* Add padding to container elements */
+.container {
+  width: 100%;
+  padding: 1vw;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  left: 10%;
+  width: 80%;
+  height: max-content;
+  background-color: white;
+  border-radius: 10px;
+  border-color:#D3D3D3;
+  border-style: solid;
+  border-width: thin;
+  z-index: 1;
+  transform: translateY(-5vw);
+}
+
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  padding-bottom: 3%;
+}
+
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.fa-upload {
+    color: #2b2c2d;
+    font-size:3vw;
+    margin-right: 4vw;
+    vertical-align:-20%;
+    transform: scale(2.0);
+}
+

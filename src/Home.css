@@ -1,5 +1,5 @@
 
-.new_post{
+.main{
     text-align: center;
     margin-top: 5vw;
 }
@@ -14,5 +14,5 @@
     cursor: pointer;
     text-align: center;
     margin:auto;
-    
+    border-radius: 15vw;
   }

@@ -1,0 +1,5 @@
+set DATASTORE_DATASET=test
+set DATASTORE_EMULATOR_HOST=localhost:8001
+set DATASTORE_EMULATOR_HOST_PATH=localhost:8001/datastore
+set DATASTORE_HOST=http://localhost:8001
+set DATASTORE_PROJECT_ID=test

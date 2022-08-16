@@ -1,18 +1,38 @@
 import './Post.css';
 
-const Post = () => {
+const b64toBlob = (b64Data, contentType='img', sliceSize=512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+  
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+  
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
 
-    
+const Post = (props) => {
 
+    const post = props.post
     return (
         <div className="post">
             <div className="post-container">
-                <img className="image" src="https://i.kym-cdn.com/photos/images/original/001/707/893/06a.png" alt="post" />
-                <h1 className="heading">Mem man</h1>
-                <p>What is Lorem Ipsum?
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                <div className="info">      
-                </div>
+                {   post['image'] ?        
+                    <img className="image" src={URL.createObjectURL(b64toBlob(post['image']))} alt="post" />
+                    :   null
+                }
+                
+                <h1 className="heading">{post['heading']}</h1>
+                <p>{post['body']}</p>
             </div>
         </div>
       );
