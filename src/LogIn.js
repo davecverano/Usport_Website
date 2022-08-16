@@ -21,10 +21,7 @@ const LogIn = () => {
         try {
             const response = await axios.post('/signin',
                 btoa(JSON.stringify({ user, pwd })),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+                {}
             );
 
             const auth_token = response.data
