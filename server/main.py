@@ -17,7 +17,6 @@ expiry_time = 10
 
 origins = [
     "https://usport.club"
-    "https://usport.club/signin"
 ]
 
 app.add_middleware(
