@@ -6,6 +6,7 @@
 .pnp.js
 /server/venv
 /server/env
+/server/env.yaml
 /server/serviceaccountkey.json
 
 # testing
