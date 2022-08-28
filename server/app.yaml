@@ -2,3 +2,5 @@ runtime: python37
 env: standard
 service: server
 entrypoint: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
+includes:
+  - env_variables.yaml
