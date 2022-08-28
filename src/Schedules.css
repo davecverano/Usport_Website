@@ -1,15 +1,14 @@
-
-.main{
-    text-align: center;
-    
+.schedules-break{
+    margin-bottom: 2vw;
+    margin-bottom: 2vw;
 }
 
-.new_post_button{
+.new_event_button{
     display: block;
     width: 8%;
     border: none;
     background-color: #ffffff;
-    padding: 1vw 0vw 1vw 0vw;
+    padding: 1vw 0vw 1vw 0vw;;
     font-size: 1vw;
     cursor: pointer;
     text-align: center;
@@ -20,3 +19,9 @@
     border-color: rgba(128, 128, 128, 0.295);
     border-width: .1vw;
 }
+
+  .fa-plus {
+    background: #ffffff;
+    color:   #D3D3D3;
+    transform: scale(2.0);
+  }

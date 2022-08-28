@@ -1,4 +1,4 @@
-import './Post.css';
+import './Profile.css';
 
 const b64toBlob = (b64Data, contentType='img', sliceSize=512) => {
     const byteCharacters = atob(b64Data);
@@ -20,22 +20,16 @@ const b64toBlob = (b64Data, contentType='img', sliceSize=512) => {
     return blob;
   }
 
-const Post = (props) => {
 
-    const post = props.post
+const Profile = (props) => {
+    const profile = props.profile
     return (
-        <div className="post">
-            <div className="post-container">
-                {   post['image'] ?        
-                    <img className="post-image" src={URL.createObjectURL(b64toBlob(post['image']))} alt="post" />
-                    :   null
-                }
-                
-                <h1 className="heading">{post['heading']}</h1>
-                <p>{post['body']}</p>
-            </div>
+        <div className="profile-wrapper">
+            <div className='profile-image'><img className="profile-image" src={URL.createObjectURL(b64toBlob(profile['image']))} alt="profile" /></div>
+            <div><p className='profile-name'>{profile['name']}</p></div>
+            <div><p className='profile-title'>{profile['title']}</p></div>
         </div>
       );
 };
   
-export default Post;
+export default Profile;

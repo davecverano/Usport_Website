@@ -1,0 +1,13 @@
+.involvement-wrapper{
+  display: flex;
+  height: fit-content;
+}
+
+
+
+.contact-information-wrapper{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

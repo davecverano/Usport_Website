@@ -1,5 +1,5 @@
 /* The Modal (background) */
-.home-modal {
+.schedule-modal {
   display: none; /* Hidden by default */
   position: fixed; 
   left: 10%;
@@ -11,7 +11,16 @@
   border-style: solid;
   border-width: thin;
   z-index: 1;
-  transform: translateY(-15%);
+  transform: translateY(-80%);
   box-shadow: 0 0 0 100vmax rgba(0,0,0,.8);
 }
 
+.react-time-picker__wrapper {
+  background: white;
+  border: none !important;
+}
+
+.react-date-picker__wrapper {
+  background: white;
+  border: none !important;
+}

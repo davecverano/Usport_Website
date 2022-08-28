@@ -1,5 +1,4 @@
 import "./Navbar.css"
-import { NavLink } from "react-router-dom";
 import { ReactComponent as Usport_Logo} from "./resources/Usport_Logo.svg"
 import { useState, useEffect } from 'react';
   
@@ -31,25 +30,34 @@ const Navbar = () => {
           className="navigation-menu">
           <ul>
             <li>
-              <NavLink
-                  to="gainesville"
-              >
-                  Gainesville
-              </NavLink>
+              <div class="dropdown">
+                <button class="dropbtn">Gainesville
+                </button>
+                <div class="dropdown-content">
+                  <a href="/home/gainesville">Home</a>
+                  <a href="/schedule/gainesville">Schedule</a>
+                </div>
+              </div>
             </li>
             <li>
-              <NavLink
-                    to="miami"
-                >
-                  Miami
-              </NavLink>
+              <div class="dropdown">
+                <button class="dropbtn">Miami
+                </button>
+                <div class="dropdown-content">
+                  <a href="/home/miami">Home</a>
+                  <a href="/schedule/miami">Schedule</a>
+                </div>
+              </div>
             </li>
             <li>
-              <NavLink
-                      to="contact"
-                  >
-                    Contact
-              </NavLink>
+              <div class="dropdown">
+                <button class="dropbtn">Connect
+                </button>
+                <div class="dropdown-content">
+                  <a href="/leaders">The Team</a>
+                  <a href="/involvement">Contact</a>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -57,7 +65,7 @@ const Navbar = () => {
           className="navigation-social">
           <ul>
             <li>
-            <a href="#" className="fa fa-twitter"></a>
+            <a href="#" className="fa fa-facebook"></a>
             </li>
             <li>
             <a href="https://www.linkedin.com/in/jeremy-cohen-957507217/" className="fa fa-linkedin"></a>

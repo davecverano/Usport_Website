@@ -1,0 +1,39 @@
+/* Full-width input fields */
+.contactNameInput{
+    width: 50%;
+    padding: 1vw;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    text-align: center; 
+    border-radius: 5px;
+    font-size: 1.7vw;
+    font-weight: bold;
+  }
+
+/* Full-width input fields */
+.emailInput{
+    width: 50%;
+    padding: 1vw;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    text-align: center; 
+    border-radius: 5px;
+    font-size: 1.7vw;
+    font-weight: bold;
+  }
+
+.contact-modal {
+    display: flex; 
+    left: 0;
+    height: max-content;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+  }
+
+.contact-modal-content{
+    width: 100%;
+}

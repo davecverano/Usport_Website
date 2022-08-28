@@ -1,10 +1,10 @@
-import './CreatePostForm.css'
+import './CreateProfileForm.css'
 import './CreateForm.css'
 import {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 
 const displayForm = (isPoppedup) => {
-    document.getElementById('CreatePostForm').style.display ='block'
+    document.getElementById('CreateProfileForm').style.display ='block'
     isPoppedup.current = true
 }
 
@@ -16,7 +16,7 @@ function useOutsideAlerter(ref, isPoppedup, close, setImage) {
      */
     function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && !isPoppedup.current) {
-            document.getElementById('CreatePostForm').style.display ='none'
+            document.getElementById('CreateProfileForm').style.display ='none'
             close()
             setImage(null)
 
@@ -36,12 +36,11 @@ function useOutsideAlerter(ref, isPoppedup, close, setImage) {
   }
 
 
-const CreatePostForm = (props) => {
+const CreateProfileForm = (props) => {
 
     const isPoppedup = useRef(false)
     const modalRef = useRef(null)
     const [image, setImage] = useState(null)
-    const [display, setDisplay] = useState(new Set([]))
     useOutsideAlerter(modalRef, isPoppedup, props.closeModal, setImage);
 
     useEffect(() => {
@@ -50,24 +49,20 @@ const CreatePostForm = (props) => {
         }
     }, [props.showModal])
 
-    const uploadPost = async (e) => {
-        const heading = document.getElementById('heading').value
-        const body = document.getElementById('body').value
+    const uploadProfile = async (e) => {
+        e.preventDefault()
+        const name = document.getElementById('name').value
+        const title = document.getElementById('title').value
         const data = new FormData();
         const auth_token = props.authToken
-        let location = 'all'
-        
-        if(display.size == 1){
-            location = Array.from(display)[0];
-        }
-
         data.append('image', image);
 
-        await axios.post('/new_post', data, {params: {
-            "heading": heading,
-            "body": body,
+        console.log(data)
+
+        await axios.post('/new_profile', data, {params: {
+            "name": name,
+            "title": title,
             "authToken": auth_token,
-            "location": location
           }})
           .then(function (response) {
             console.log(response);
@@ -85,45 +80,30 @@ const CreatePostForm = (props) => {
         e.target.value = ''
     }
 
-    const changeDisplay = (e) => {
-        if(display.has(e.target.value)){
-            display.delete(e.target.value)
-            setDisplay(display)
-        }else{
-            display.add(e.target.value)
-            setDisplay(display)
-        }
-    }
-
     return ( 
         
         <div>
-            <div id="CreatePostForm" className="home-modal" ref={modalRef}>
+            <div id="CreateProfileForm" className="profile-modal" ref={modalRef}>
                 <form className="modal-content" >
                     <div className="container">
-                    <h3>Create a Post</h3>
+                    <h3>Create a Profile</h3>
                     <hr/>
                     <div className="imgDisplay">
                         {   image ?        
-                                <img className="formImage" src={URL.createObjectURL(image)} alt="post" />
+                                <img className="formImage" src={URL.createObjectURL(image)} alt="profile" />
                             :   null
                         }
                     </div>
                     <div className="clearfix">
-                            <input id="heading" type="text" className="headingInput" />
+                            <input id="name" type="text" className="nameInput" />
                     </div>
                     <div className="clearfix">
-                            <textarea id="body" type="text" className="bodyInput" />
+                            <input id="title" type="text" className="titleInput" />
                     </div>
                     <hr/>
      
                         <div className="form_wrapper">
                                     <div className="options_wrapper">
-                                        <input type="checkbox" id="location_gainesville" name="location_gainesville" value="gainesville" onChange={changeDisplay}/>
-                                        <label for="location_gainesville" className='location_options_label'> Gainesville</label>
-                                        <div className='options_wrapper_buffer'></div>
-                                        <input type="checkbox" id="location_miami" name="location_miami" value="miami" onChange={changeDisplay}/>
-                                        <label for="location_miami" className='location_options_label'> Miami</label>
                                     </div>
                                     <div className="form_buffer"></div>
                                     <div className="image_wrapper">
@@ -131,7 +111,7 @@ const CreatePostForm = (props) => {
                                         <input id="files" className="form-control" type="file" name="files" onChange={uploadImage}/>  
                                     </div>   
                                     <div className="upload_wrapper">
-                                        <button className="signupbtn" onClick={uploadPost}>Upload Post</button>
+                                        <button className="signupbtn" onClick={uploadProfile}>Upload Profile</button>
                                     </div>                
                         </div>
                     </div>
@@ -141,4 +121,4 @@ const CreatePostForm = (props) => {
      );
 }
  
-export default CreatePostForm;
+export default CreateProfileForm;

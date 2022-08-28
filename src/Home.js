@@ -5,6 +5,7 @@ import Navbar from "./Navbar.js";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import loading_Gif from './resources/loading.gif'
+import { useParams } from 'react-router-dom'
 
 
 const displayOverflow = (shouldDisplay) => {
@@ -16,17 +17,24 @@ const displayOverflow = (shouldDisplay) => {
     
 }
 
-const Home = () => {
-
+const Home = (props) => {
     const [posts, setPosts] = useState(null);
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState(true)
     const [authToken, setAuthToken] = useState(null)
+    const { location } = useParams();
+
 
     useEffect(() => {
             async function fetchPosts() {
                 setLoading(true)
-                const res = await axios.get('/get_posts')
+                let request_string = '/get_posts/'
+                if(location){
+                    request_string += location
+                }else{
+                    request_string += 'all'
+                }
+                const res = await axios.get(request_string)
                 const posts_list = res.data;
                 setPosts(posts_list)
                 setLoading(false)
@@ -37,12 +45,12 @@ const Home = () => {
       }, []);
     
 
-    const displaySignedURLModal = () => {
+    const displayModal = () => {
         setShowModal(true)
         displayOverflow(false)
     }
 
-    const closeSignedURLModal = () => {
+    const closeModal = () => {
         setShowModal(false)
         displayOverflow(true)
     }      
@@ -57,9 +65,9 @@ const Home = () => {
                         
                     ) : (
                         <div>
-                            <CreatePostForm authToken={authToken} showModal={showModal} closeModal={closeSignedURLModal}></ CreatePostForm>
+                            <CreatePostForm authToken={authToken} showModal={showModal} closeModal={closeModal}></ CreatePostForm>
                             {
-                                authToken != null ? (<button type="button" className="new_post_button" onClick={displaySignedURLModal}>New Post</button>)
+                                authToken != null ? (<button type="button" className="new_post_button" onClick={displayModal}><i class="fa fa-plus" aria-hidden="true"></i></button>)
                                 : (
                                     null
                                 )

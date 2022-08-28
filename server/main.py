@@ -1,19 +1,26 @@
 import mock
 import os
 from google.cloud import datastore, storage
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
 import base64, json
 from uuid import uuid4
 import jwt
 import hashlib
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from dotenv import load_dotenv
 
+load_dotenv()
 app = FastAPI()
-bucket_name = "weighty-archive-270701.appspot.com"
-key = 'sGhH?&zm?n6RmR8rJyrHe)VW?6?)NMmsX8zhAV8z&wwhhzs&8m'
-salt = 'dhG_CkqG{JtsCSSnJ~sqtdJ=D=^qP^k4dYP3x?%3CY}Y7+q?Pq'
 expiry_time = 10
+
+bucket_name = os.getenv('bucket_name')
+key = os.getenv('key')
+salt = os.getenv('salt')
+service_account_filename = os.getenv('service_account_filename')
 
 
 if os.getenv('GAE_ENV', '').startswith('standard'):
@@ -25,14 +32,14 @@ if os.getenv('GAE_ENV', '').startswith('standard'):
 else:
     # localhost
     os.environ["DATASTORE_DATASET"] = "test"
-    os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8001"
-    os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8001/datastore"
-    os.environ["DATASTORE_HOST"] = "http://localhost:8001"
+    os.environ["DATASTORE_EMULATOR_HOST"] = "localhost:8081"
+    os.environ["DATASTORE_EMULATOR_HOST_PATH"] = "localhost:8081/datastore"
+    os.environ["DATASTORE_HOST"] = "http://localhost:8081"
     os.environ["DATASTORE_PROJECT_ID"] = "test"
     db = datastore.Client(project="test")
     origins = [
-    "https://usport.club"
-    "http://localhost:3000"
+    "https://usport.club",
+    "http://localhost:3000/",
     ]
 
 
@@ -46,39 +53,9 @@ app.add_middleware(
 )
 
 def getGCSBucket():
-    storage_client = storage.Client.from_service_account_json('serviceaccountkey.json')
+    storage_client = storage.Client.from_service_account_json(service_account_filename)
     bucket = storage_client.get_bucket(bucket_name)
     return bucket
-
-@app.post('/new_post')
-async def create_post(request: Request, heading, body, authToken):
-
-    if verifyAuthToken(authToken):
-        request_forms_list = await request.form()
-        image = request_forms_list.getlist('image')[0]
-        image_name = None
-        if image != 'null':
-            image_name = str(uuid4()) + '_' + image.filename
-            image_data = image.file
-            bucket = getGCSBucket()
-            blob = bucket.blob(image_name)
-            blob.upload_from_file(image_data)
-        post = datastore.Entity(db.key("Post"))
-        post.update(
-            {
-                "image_name": image_name,
-                "image": None,
-                "heading": heading,
-                "body": body,
-                "date": datetime.now()
-            }
-        )
-
-        db.put(post)
-
-    posts = get_posts()
-    return posts
-
 
 
 def verifyAuthToken(authToken):
@@ -107,60 +84,186 @@ def encrypt_string(hash_string):
     sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
     return sha_signature
 
-def create_auth_payload(decoded_payload):
+
+def create_auth_payload(decoded_payload, encrypted_password):
     decoded_payload['iat'] = datetime.now()
-    unsalted_password = decoded_payload['pwd']
-    encrypted_password = encrypt_string(unsalted_password)
     decoded_payload['pwd'] = encrypted_password
     return decoded_payload
 
 
 @app.post('/signin')
-async def create_access_token(request: Request):
+async def signIn(request: Request):
 
     request_body = await request.body()
     decoded_payload = json.loads(base64.b64decode(request_body))
-    auth_payload = create_auth_payload(decoded_payload)
+    username = decoded_payload['user']
+    unsalted_password = decoded_payload['pwd']
+    encrypted_password = encrypt_string(unsalted_password)
+    if verifyCredentials(username, encrypted_password):
+        auth_payload = create_auth_payload(decoded_payload, encrypted_password)
+        new_token = jwt.encode(
+            auth_payload,
+            key,
+            algorithm='HS256'
+        )
+        return new_token
+    else:
+        raise HTTPException(status_code=401, detail="Incorrect Username or Password")
+    raise HTTPException(status_code=400, detail="Bad Login")
 
-    new_token = jwt.encode(
-        auth_payload,
-        key,
-        algorithm='HS256'
-    )
-    return new_token
 
-@app.get('/get_posts')
-def get_posts():
+@app.post('/new_post')
+async def create_post(request: Request, heading, body, authToken, location):
+    
+    if verifyAuthToken(authToken):
+        request_forms_list = await request.form()
+        image = request_forms_list.getlist('image')[0]
+        image_name = None
+        if image != 'null':
+            image_name = str(uuid4()) + '_' + image.filename
+            image_data = image.file
+            bucket = getGCSBucket()
+            blob = bucket.blob(image_name)
+            blob.upload_from_file(image_data)
+        post = datastore.Entity(db.key("Post"))
+        post.update(
+            {
+                "image_name": image_name,
+                "image": None,
+                "heading": heading,
+                "body": body,
+                "date": datetime.now(),
+                "location": location
+            }
+        )
+
+        db.put(post)
+
+
+    
+    posts = get_posts(location)
+    return posts
+
+
+@app.get('/get_posts/{location}')
+def get_posts(location):
     post_query = db.query(kind="Post")
     post_query.order = ["-date"]
+    if location != 'all':
+        post_query.add_filter("location", "=", location)
     posts = list(post_query.fetch())
     bucket = getGCSBucket()
     for post in posts:
         if 'image_name' in post and post['image_name'] is not None:
             blob = bucket.blob(post['image_name'])
-            if 'image' in post and post['image'] is not None:
-                contents = base64.b64encode(blob.download_as_string())
-                post['image'] = contents
+            contents = base64.b64encode(blob.download_as_string())
+            post['image'] = contents
     return posts
 
 
-@app.post('/new_user')
-async def create_user(username, pwd):
-    user = datastore.Entity(db.key("User"))
-    encrypted_password = encrypt_string(pwd)
-    user.update(
-        {
-            "username": username,
-            "pwd": encrypted_password
-        }
-    )
-    db.put(user)
-    users = get_users()
-    return users
+# @app.post('/new_user')
+# async def create_user(username, pwd):
+#     user = datastore.Entity(db.key("User"))
+#     encrypted_password = encrypt_string(pwd)
+#     user.update(
+#         {
+#             "username": username,
+#             "pwd": encrypted_password
+#         }
+#     )
+#     db.put(user)
+#     users = get_users()
+#     return users
 
-@app.get('/get_users')
-def get_users():
-    user_query = db.query(kind="User")
-    users = list(user_query.fetch())
-    return users
+# @app.get('/get_users')
+# def get_users():
+#     user_query = db.query(kind="User")
+#     users = list(user_query.fetch())
+#     return users
+
+
+@app.post('/new_event')
+async def create_schedule(heading, body, authToken, startDate, endDate, location):
+    print(startDate)
+    if verifyAuthToken(authToken):
+        event = datastore.Entity(db.key("Events"))
+        event.update(
+            {
+                "heading": heading,
+                "body": body,
+                "startDate": startDate,
+                "endDate": endDate,
+                "location": location
+            }
+        )
+        db.put(event)
+
+@app.get('/get_upcoming_events/{location}')
+def get_upcoming_events(location):
+    now = str(int(datetime.now().timestamp()))
+    event_query = db.query(kind="Events")
+    event_query.add_filter("startDate", ">=", now)
+    event_query.add_filter("location", "=", location)
+    event_query.order = ["-startDate"]
+    events = list(event_query.fetch(limit=3))
+    return events
+
+@app.get('/get_past_events/{location}')
+def get_upcoming_events(location):
+    now = str(int(datetime.now().timestamp()))
+    event_query = db.query(kind="Events")
+    event_query.add_filter("startDate", "<=", now)
+    event_query.add_filter("location", "=", location)
+    event_query.order = ["startDate"]
+    events = list(event_query.fetch(limit=3))
+    return events
+
+@app.post('/new_profile')
+async def create_schedule(request: Request, name, title, authToken):
+    if verifyAuthToken(authToken):
+        request_forms_list = await request.form()
+        image = request_forms_list.getlist('image')[0]
+        if image != 'null':
+            image_name = str(uuid4()) + '_' + image.filename
+            image_data = image.file
+            bucket = getGCSBucket()
+            blob = bucket.blob(image_name)
+            blob.upload_from_file(image_data)
+        profile = datastore.Entity(db.key("Profile"))
+        profile.update(
+            {
+                "image_name": image_name,
+                "image": None,
+                "name": name,
+                "title": title,
+            }
+        )
+        db.put(profile)
+
+    profiles = get_profiles()
+    return profiles 
+
+@app.get('/get_profiles')
+def get_profiles():
+    profile_query = db.query(kind="Profile")
+    profiles = list(profile_query.fetch())
+    bucket = getGCSBucket()
+    for profile in profiles:
+        if 'image_name' in profile and profile['image_name'] is not None:
+            blob = bucket.blob(profile['image_name'])
+            contents = base64.b64encode(blob.download_as_string())
+            profile['image'] = contents
+    return profiles
+
+@app.post('/new_contact')
+def create_contact(name, email, body):
+    pass
+
+
+# @app.delete('/delete/{kind}')
+# def delete(kind):
+#     delete_query = db.query(kind=kind)
+#     deletes = list(delete_query.fetch())
+#     for delete in deletes:
+#         db.delete(delete.key)
     

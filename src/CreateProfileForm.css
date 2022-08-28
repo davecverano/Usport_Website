@@ -1,0 +1,44 @@
+/* The Modal (background) */
+.profile-modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    left: 35%;
+    width: 30%;
+    height: max-content;
+    background-color: white;
+    border-radius: 10px;
+    border-color:#D3D3D3;
+    border-style: solid;
+    border-width: thin;
+    z-index: 1;
+    transform: translateY(-15%);
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,.8);
+  }
+
+/* Full-width input fields */
+.nameInput{
+    width: 50%;
+    padding: 1vw;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    text-align: center; 
+    border-radius: 5px;
+    font-size: 1.5vw;
+    font-weight: bold;
+    margin-bottom: 2vw;
+  }
+
+  /* Full-width input fields */
+.titleInput{
+    width: 50%;
+    padding: 1vw;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    text-align: center; 
+    border-radius: 5px;
+    font-size: 1vw;
+    color: #8a8a8a;
+  }
+  

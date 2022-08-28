@@ -1,0 +1,140 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+
+textarea[type="text"]
+{
+    font-size:1.5vw;
+}
+
+
+/* Full-width input fields */
+.headingInput{
+  width: 50%;
+  padding: 1vw;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  text-align: center; 
+  border-radius: 5px;
+  font-size: 1.7vw;
+  font-weight: bold;
+}
+
+.bodyInput{
+    width: 70%;
+    height: 10vw;
+    padding: 8px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 5px;
+    vertical-align: top;
+    text-align: left;
+    word-wrap: break-word;
+    resize: none;
+    font-size: .5vw;
+
+  }
+
+.uploadImage{
+    height: max-content;
+}
+
+.uploadImage:hover, .uploadImage:hover * { 
+    color: #2b2c2dbb; 
+}
+
+
+.formImage {
+  width: 100%;
+  height: 20vw;
+}
+
+
+
+
+.form-control{
+    visibility: hidden;
+    width: 0%;
+}
+
+
+/* Set a style for all buttons */
+.signupbtn {
+  width: 100%;
+  background-color: blue;
+  color: white;
+  border: none;
+  opacity: 0.9;
+  border-radius: 15vw;
+  cursor: pointer;
+  font-size: 15px;
+  background: #fa4718;
+  padding: 1vw 2vw;
+  height: 100%;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Add padding to container elements */
+.container {
+  width: 100%;
+  padding: 1vw;
+}
+
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 1vw;
+}
+
+.form_wrapper{
+  display: flex;
+  flex-direction: row;           
+}
+
+
+
+.upload_wrapper{
+  width: 40%;
+  vertical-align: center;
+}
+
+.image_wrapper{
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0;
+  vertical-align: center;
+  
+}
+
+.form_buffer{
+  width: 40%;
+}
+
+.options_wrapper{
+  width: 40%;
+  display: flex;
+  flex-direction: row;    
+  vertical-align: middle;
+}
+
+
+.fa-upload {
+    color: #2b2c2d;
+    vertical-align:-20%;
+    transform: scale(2.0);
+}
+
+.location_options_label {
+    display: flex;
+    align-items: center;
+}
+
+.options_wrapper_buffer{
+  width: 10%;
+}

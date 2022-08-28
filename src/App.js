@@ -1,9 +1,10 @@
 import './App.css';
 import Home from "./Home.js"
-import Gainesville from "./Gainesville.js"
-import Miami from "./Miami.js"
-import Contact from "./Contact.js"
+import Schedules from "./Schedules.js"
+import Involvement from "./Involvement.js"
+import Leaders from "./Leaders.js"
 import LogIn from "./LogIn.js"
+import Error from "./Error.js"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,11 +13,13 @@ function App() {
     <div className="App">
       <body>
             <Routes>
-                <Route exact path="/" element={<Home />}/>
-                <Route path="/gainesville" element={<Gainesville/>} />
-                <Route path="/miami" element={<Miami />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/signin" element={<LogIn />} />
+                <Route exact path="" element={<Home />}/>
+                <Route path="home/:location" element={<Home/>} />
+                <Route path="schedule/:location" element={<Schedules/>} />
+                <Route path="involvement" element={<Involvement />} />
+                <Route path="leaders" element={<Leaders />} />
+                <Route path="signin" element={<LogIn />} />
+                <Route path="*" element={<Error />} />
             </Routes>
         
       </body>

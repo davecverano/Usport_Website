@@ -1,5 +1,5 @@
 
-input[type="text"],
+input[type="username"],
 input[type="password"] {
   height: 2vw;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -8,19 +8,21 @@ input[type="password"] {
 }
 
 button[type="submit"] {
-  margin-top: 10px;
+  width: 100%;
+  background-color: blue;
+  color: white;
+  border: none;
+  opacity: 0.9;
+  border-radius: 15vw;
   cursor: pointer;
   font-size: 15px;
   background: #fa4718;
-  border: 1px solid #000;
-  color: #fff;
-  padding: 10px 20px;
-  width: 50%;
+  padding: 1vw 2vw;
   height: 100%;
 }
 
 button[type="submit"]:hover {
-  background: #6cf0c2;
+  opacity:1;
 }
 
 .button-container {

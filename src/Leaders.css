@@ -1,0 +1,30 @@
+.leaders-wrapper{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.new_profile_button{
+    
+    width: 30%;
+    border: none;
+    background-color: #ffffff;
+    padding: 1vw 0vw 1vw 0vw;
+    font-size: 1vw;
+    cursor: pointer;
+    border-radius: 15vw;
+    border-style: solid;
+    border-color: rgba(128, 128, 128, 0.295);
+    border-width: .1vw;
+}
+
+.profile-wrapper-button {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    width: 20vw;
+    height: 24vw;
+    border: 1vw solid #D3D3D3;
+    border-style: dashed;
+  }
