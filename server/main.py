@@ -158,7 +158,7 @@ def get_posts(location):
 
     if location != 'all':
         post_query.add_filter("location", "=", location)
-        posts = list(post_query.fetch())
+    posts = list(post_query.fetch())
 
     bucket = getGCSBucket()
     for post in posts:

@@ -1,7 +1,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 .navigation {
-    height: 60px;
+    height:3vw;
     width: 100%;
     display: flex;
     align-items: center;
@@ -42,6 +42,12 @@
     color: inherit;
     display: block;
     width: 100%;
+  }
+
+  @media screen and (max-width: 520px) {
+    .navigation-social {
+      visibility: hidden;
+    }
   }
 
   .navigation-social {

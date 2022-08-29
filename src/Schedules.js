@@ -61,6 +61,8 @@ const closeModal = () => {
 
 
 
+
+
     return (
       <div>
         
@@ -71,7 +73,7 @@ const closeModal = () => {
                         
                     ) : (
           <div>
-            <Schedule></Schedule>
+            <Schedule events={[].concat(upcomingEvents, pastEvents)}></Schedule>
             <CreateEventForm authToken={authToken} showModal={showModal} closeModal={closeModal} location={location}></ CreateEventForm>
             <hr className='schedules-break'/>
             {
