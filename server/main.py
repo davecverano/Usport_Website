@@ -37,6 +37,8 @@ else:
     db = datastore.Client(project="test")
     origins = [
     "https://usport.club",
+    "https://usport.club/home",
+    "https://usport.club/schedule",
     "http://localhost:3000/",
     ]
 
