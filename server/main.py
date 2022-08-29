@@ -12,6 +12,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
+import traceback
 
 
 app = FastAPI()
@@ -154,9 +155,11 @@ async def create_post(request: Request, heading, body, authToken, location):
 def get_posts(location):
     post_query = db.query(kind="Post")
     post_query.order = ["-date"]
+
     if location != 'all':
         post_query.add_filter("location", "=", location)
-    posts = list(post_query.fetch())
+        posts = list(post_query.fetch())
+
     bucket = getGCSBucket()
     for post in posts:
         if 'image_name' in post and post['image_name'] is not None:

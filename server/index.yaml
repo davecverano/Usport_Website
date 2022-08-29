@@ -1,0 +1,15 @@
+indexes:
+
+- kind: Post
+  properties:
+  - name: location
+  - name: date    
+    direction: desc
+
+- kind: Events
+  properties:
+  - name: location
+  - name: startDate    
+
+
+
