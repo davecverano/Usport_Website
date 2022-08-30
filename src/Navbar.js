@@ -65,13 +65,13 @@ const Navbar = () => {
           className="navigation-social">
           <ul>
             <li>
-            <a href="#" className="fa fa-facebook"></a>
+            <a href="https://m.facebook.com/groups/226500567363849" className="fa fa-facebook"></a>
             </li>
             <li>
-            <a href="https://www.linkedin.com/in/jeremy-cohen-957507217/" className="fa fa-linkedin"></a>
+            <a href="https://www.linkedin.com/in/usport-gainesville-x-miami-956407248/" className="fa fa-linkedin"></a>
             </li>
             <li>
-            <a href="#" className="fa fa-instagram"></a>
+            <a href="https://www.instagram.com/usportgainesville/" className="fa fa-instagram"></a>
             </li>
             <li>
               {
